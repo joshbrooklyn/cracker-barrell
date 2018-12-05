@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 
 function PegLocation(props){
 	return (
-		<button className={props.pegClass} onClick={props.onClick.bind(this, props.pegNum)}/>
+		<button id="peg-location" className={props.pegClass} onClick={props.onClick.bind(this, props.pegNum)}/>
 	);
 }
 
@@ -21,9 +21,36 @@ function GameControls(props){
 	)
 }
 
-class Board extends React.Component {	
-	render() {
-		let rows = [];
+class Board extends React.Component {
+  /*hasValidMove(pegLocations, validMoves, pegToTest)
+  {
+      
+  }	*/
+  render() {
+  
+    let pegLocations = this.props.pegLocations;
+    let validMoves = this.props.validMoves;
+    
+    let pegsWithValidMoves = pegLocations.map((hasPeg,idx) => {
+     if (hasPeg === 0) return 0;
+     
+     const moves = validMoves[idx];
+     let retVal = 0;
+     
+     //console.log(idx);
+     for (let move of moves) {
+      console.log(move[1]);
+      if (pegLocations[move[1]] !== 1)
+        retVal = 1;     
+     }
+     
+     return retVal;
+    });
+    //console.log(validMoves[0]);
+    //console.log(pegLocations);
+    //console.log(pegsWithValidMoves);
+    
+    let rows = [];
 	  let key = 0;
 	  
 	  for (let i = 0; i <= 4; i++) {
@@ -38,10 +65,12 @@ class Board extends React.Component {
 	  	{
 	  		let pegClass = 'peg-location-occupied';
 	  		
-	  		if (!this.props.pegLocations[key])
-	  			pegClass = 'peg-location-empty';
+	  		if (!pegLocations[key])
+	  			pegClass = 'empty';
 	  		else if (this.props.selectedPeg === key)
-	  			pegClass = 'peg-location-selected';
+	  			pegClass = 'from-selected';
+	  		else if (pegsWithValidMoves[key])
+	  		  pegClass = 'from-selectable';
 	  		
 	  		col.push(
 	  			<PegLocation 
@@ -110,6 +139,7 @@ class CrackerBarrell extends React.Component {
 				<Board 
 					pegLocations = {current.pegLocations}
 					selectedPeg = {this.state.selectedPeg}
+					validMoves = {this.props.validMoves}
 					onClick={(i) => this.handleClick(i)}
 				/>
 				<GameControls />
@@ -118,7 +148,77 @@ class CrackerBarrell extends React.Component {
 	}
 }
 
-ReactDOM.render(<CrackerBarrell emptyPeg={Math.floor(Math.random() * Math.floor(14))}/>, document.getElementById('root'));
+ReactDOM.render(
+  <CrackerBarrell 
+    //emptyPeg={Math.floor(Math.random() * Math.floor(14))}
+    emptyPeg={5}
+    //below are the valid moves for each peg location, with the index of the validMoves array being th peg location key
+    validMoves={[
+      [
+        [1,3],
+        [2,5]  
+      ],
+      [
+        [3,6],
+        [4,8]
+      ],
+      [
+        [4,7],
+        [5,9]
+      ],
+      [
+        [1,0],
+        [4,5],
+        [6,10],
+      ],
+      [
+        [3,6],
+        [4,8]
+      ],
+      [
+        [3,6],
+        [4,8]
+      ],
+      [
+        [3,6],
+        [4,8]
+      ],
+      [
+        [3,6],
+        [4,8]
+      ],
+      [
+        [3,6],
+        [4,8]
+      ],
+      [
+        [3,6],
+        [4,8]
+      ],
+      [
+        [3,6],
+        [4,8]
+      ],
+      [
+        [3,6],
+        [4,8]
+      ],
+      [
+        [3,6],
+        [4,8]
+      ],
+      [
+        [3,6],
+        [4,8]
+      ],
+      [
+        [3,6],
+        [4,8]
+      ]
+    ]}
+  />, 
+  document.getElementById('root')
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

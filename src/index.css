@@ -13,7 +13,7 @@ code {
     monospace;
 }
 
-.peg-location-empty, .peg-location-occupied, .peg-location-selected {
+#peg-location {
 	height:50px;
 	width:50px; 
 	display:inline-block;
@@ -23,21 +23,20 @@ code {
 	background-color: black;
 }
 
-.peg-location-occupied:hover {
-	background-color:blue;
-  cursor:pointer;		
-}
-
 button:focus {
 	outline:none;
 }
 
-.peg-location-empty {
+#peg-location.empty {
 	background-color:white;
 }
 
-.peg-location-selected {
+#peg-location.from-selected {
 	background-color:red;
+}
+
+#peg-location.to-selectable {
+	background-color:yellow;
 }
 
 .game-controls {
@@ -55,3 +54,7 @@ button:focus {
 	display:inline-block;
 }
 
+#peg-location.from-selectable:hover {
+	background-color:blue;
+  cursor:pointer;		
+}
