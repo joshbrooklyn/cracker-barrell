@@ -12,3 +12,46 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.peg-location-empty, .peg-location-occupied, .peg-location-selected {
+	height:50px;
+	width:50px; 
+	display:inline-block;
+	border: 2px solid black;
+	border-radius: 100%;
+	margin-right:5px;
+	background-color: black;
+}
+
+.peg-location-occupied:hover {
+	background-color:blue;
+  cursor:pointer;		
+}
+
+button:focus {
+	outline:none;
+}
+
+.peg-location-empty {
+	background-color:white;
+}
+
+.peg-location-selected {
+	background-color:red;
+}
+
+.game-controls {
+	display:inline-block;
+	vertical-align:top;
+}
+
+.game-controls.button {
+	border-radius: 20px;
+}
+
+.game-board {
+	width:400px;
+	height:400px;
+	display:inline-block;
+}
+
