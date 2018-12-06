@@ -10,6 +10,12 @@ function PegLocation(props){
 	);
 }
 
+function GameMessage(props){
+	return(
+		<div id="game-message" style={props.showMessage ? {visibility:'visible'} : {visibility:'hidden'}}>{props.message}</div>
+	)
+}
+
 function GameControls(props){
 	return (
 		<div className="game-controls">
@@ -33,8 +39,6 @@ class Board extends React.Component {
     const pegLocations = this.props.pegLocations;
     const selectedPeg = this.props.selectedPeg;
     
-    console.log(selectableHoles);
-        
     let rows = [];
 	  let key = 0;
 	  
@@ -56,10 +60,12 @@ class Board extends React.Component {
 		  		else if (selectablePegs[key])
 		  		  pegClass = 'from-selectable';	  			
 	  		} else {
-					if (selectedPeg == key) 
+					if (selectedPeg === key) 
 						pegClass = 'from-selected';
 					else if (selectableHoles[key])	 			
 						pegClass = 'to-selectable';
+					else if (!pegLocations[key])
+		  			pegClass = 'empty';
 	  		}
 
 	  		
@@ -79,7 +85,13 @@ class Board extends React.Component {
 	  }
 
 		return (
-		  <div className="game-board">{rows}</div>
+		  <div className="game-board">
+		  	<GameMessage
+						showMessage = {false}
+						message = 'You Won!!!'					
+				/>	
+		  	{rows}
+		 	</div>
     );
 	}
 }
@@ -103,16 +115,38 @@ class CrackerBarrell extends React.Component {
 	}
 	
 	handleClick(i, selectablePegs, selectableHoles) {
-		let selectedPeg = this.state.selectedPeg;
+		const selectedPeg = this.state.selectedPeg;
+		const history = this.state.history;
+		let pegLocations = history[history.length - 1].pegLocations;
+		const validMoves = this.props.validMoves;
+		
 		if (selectedPeg === null) {		
 			if (selectablePegs[i]) { // only do anyting if the peg has a valid move
 				this.setState ({
-					selectedPeg: i, 
+					selectedPeg: i,
 				});
 			}
 		} else {
 			if (selectableHoles[i]) {
-				
+		  	let lastMove = validMoves[selectedPeg].filter((move) => {
+		  	  return move[1] === i;
+		  	});
+		  	
+		    pegLocations[lastMove[0][0]] = 0;
+		    pegLocations[lastMove[0][1]] = 1;
+		    pegLocations[selectedPeg] = 0;
+		    //console.log(lastMove);
+		    //console.log(lastMove[0]);
+		    
+		  	history.push({
+		  	  pegLocations: pegLocations,
+		  	  lastMove: lastMove   
+		  	});
+		  	
+		  	this.setState ({
+					selectedPeg: null,
+					history: history,					 
+				});
 			}
 		}
 	} 
@@ -122,7 +156,7 @@ class CrackerBarrell extends React.Component {
 		const current = history[history.length - 1];
 		const pegLocations = current.pegLocations;
 		
-    let selectablePegs = 0;
+		let selectablePegs = 0;
     let selectableHoles = 0;
     if(this.state.selectedPeg === null) {
 	    selectablePegs = pegLocations.map((hasPeg,idx) => {
@@ -132,7 +166,7 @@ class CrackerBarrell extends React.Component {
 	     let retVal = 0;
 	     
 	     for (let move of moves) {
-	      if (pegLocations[move[1]] !== 1)
+	      if (pegLocations[move[0]] !== 0 && pegLocations[move[1]] != 1)
 	        retVal = 1;     
 	     }
 	     

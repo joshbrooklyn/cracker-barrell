@@ -19,6 +19,14 @@ code {
   100% {visibility:visible;}
 }
 
+#game-message {
+	position:absolute;
+  height: 100px;
+  top: 10px;
+  left: 50%;
+  border:1px black solid;
+}
+
 #peg-location {
 	height:50px;
 	width:50px; 
