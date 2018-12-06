@@ -13,6 +13,12 @@ code {
     monospace;
 }
 
+@keyframes selectable-hole {
+  0%  {visibility:visible;}
+  50% {visibility:hidden;}
+  100% {visibility:visible;}
+}
+
 #peg-location {
 	height:50px;
 	width:50px; 
@@ -36,7 +42,11 @@ button:focus {
 }
 
 #peg-location.to-selectable {
-	background-color:yellow;
+	background-color:white;
+	animation-name:selectable-hole;
+	animation-duration: 1s;
+	animation-delay:0s;
+	animation-iteration-count:infinite;
 }
 
 .game-controls {
@@ -56,5 +66,14 @@ button:focus {
 
 #peg-location.from-selectable:hover {
 	background-color:blue;
+  cursor:pointer;		
+}
+
+#peg-location.to-selectable:hover {
+	background-color:lightgrey;
+  cursor:pointer;		
+}
+
+#peg-location.from-selected:hover {
   cursor:pointer;		
 }

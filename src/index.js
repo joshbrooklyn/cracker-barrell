@@ -28,28 +28,13 @@ class Board extends React.Component {
   }	*/
   render() {
   
-    let pegLocations = this.props.pegLocations;
-    let validMoves = this.props.validMoves;
+    const selectablePegs = this.props.selectablePegs;
+    const selectableHoles = this.props.selectableHoles;
+    const pegLocations = this.props.pegLocations;
+    const selectedPeg = this.props.selectedPeg;
     
-    let pegsWithValidMoves = pegLocations.map((hasPeg,idx) => {
-     if (hasPeg === 0) return 0;
-     
-     const moves = validMoves[idx];
-     let retVal = 0;
-     
-     //console.log(idx);
-     for (let move of moves) {
-      console.log(move[1]);
-      if (pegLocations[move[1]] !== 1)
-        retVal = 1;     
-     }
-     
-     return retVal;
-    });
-    //console.log(validMoves[0]);
-    //console.log(pegLocations);
-    //console.log(pegsWithValidMoves);
-    
+    console.log(selectableHoles);
+        
     let rows = [];
 	  let key = 0;
 	  
@@ -65,12 +50,18 @@ class Board extends React.Component {
 	  	{
 	  		let pegClass = 'peg-location-occupied';
 	  		
-	  		if (!pegLocations[key])
-	  			pegClass = 'empty';
-	  		else if (this.props.selectedPeg === key)
-	  			pegClass = 'from-selected';
-	  		else if (pegsWithValidMoves[key])
-	  		  pegClass = 'from-selectable';
+	  		if (selectedPeg === null){
+		  		if (!pegLocations[key])
+		  			pegClass = 'empty';
+		  		else if (selectablePegs[key])
+		  		  pegClass = 'from-selectable';	  			
+	  		} else {
+					if (selectedPeg == key) 
+						pegClass = 'from-selected';
+					else if (selectableHoles[key])	 			
+						pegClass = 'to-selectable';
+	  		}
+
 	  		
 	  		col.push(
 	  			<PegLocation 
@@ -111,36 +102,66 @@ class CrackerBarrell extends React.Component {
 		};
 	}
 	
-	handleClick(i) {
-		let selectedPeg = null;
-		const history = this.state.history;
-		
-		if (this.state.selectedPeg === null){
-			selectedPeg = i;
+	handleClick(i, selectablePegs, selectableHoles) {
+		let selectedPeg = this.state.selectedPeg;
+		if (selectedPeg === null) {		
+			if (selectablePegs[i]) { // only do anyting if the peg has a valid move
+				this.setState ({
+					selectedPeg: i, 
+				});
+			}
+		} else {
+			if (selectableHoles[i]) {
+				
+			}
 		}
-		
-		this.setState ({
-			history: history,
-			selectedPeg: selectedPeg, 
-		});
 	} 
 	
-	/*resetGame() {
-		let emptyPeg = Math.floor(Math.random() * Math.floor(14));	
-		
-	}*/
-		
 	render() {
 		const history = this.state.history;
 		const current = history[history.length - 1];
+		const pegLocations = current.pegLocations;
+		
+    let selectablePegs = 0;
+    let selectableHoles = 0;
+    if(this.state.selectedPeg === null) {
+	    selectablePegs = pegLocations.map((hasPeg,idx) => {
+	     if (hasPeg === 0) return 0;
+	     
+	     const moves = this.props.validMoves[idx];
+	     let retVal = 0;
+	     
+	     for (let move of moves) {
+	      if (pegLocations[move[1]] !== 1)
+	        retVal = 1;     
+	     }
+	     
+	     return retVal;
+	    });		
+	  } else {
+	  	selectableHoles = pegLocations.map((hasPeg,idx) => {
+	     if (hasPeg === 1) return 0;
+	     
+	     const moves = this.props.validMoves[this.state.selectedPeg];
+	     let retVal = 0;
+	     
+	     for (let move of moves) {
+	      if (move[1] === idx)
+	        retVal = 1;     
+	     }
+	     
+	     return retVal;
+	  	});
+	  }
 		
 		return (
 			<div>
 				<Board 
-					pegLocations = {current.pegLocations}
+					pegLocations = {pegLocations}
 					selectedPeg = {this.state.selectedPeg}
-					validMoves = {this.props.validMoves}
-					onClick={(i) => this.handleClick(i)}
+					selectablePegs = {selectablePegs}
+					selectableHoles = {selectableHoles}
+					onClick={(i) => this.handleClick(i, selectablePegs, selectableHoles)}
 				/>
 				<GameControls />
 			</div>
@@ -150,8 +171,8 @@ class CrackerBarrell extends React.Component {
 
 ReactDOM.render(
   <CrackerBarrell 
-    //emptyPeg={Math.floor(Math.random() * Math.floor(14))}
-    emptyPeg={5}
+    emptyPeg={Math.floor(Math.random() * Math.floor(14))}
+    
     //below are the valid moves for each peg location, with the index of the validMoves array being th peg location key
     validMoves={[
       [
@@ -170,50 +191,55 @@ ReactDOM.render(
         [1,0],
         [4,5],
         [6,10],
+        [7,12]
       ],
       [
-        [3,6],
-        [4,8]
+        [7,11],
+        [8,13]
       ],
       [
-        [3,6],
-        [4,8]
+        [2,0],
+        [4,3],
+        [9,14],
+        [8,12]
       ],
       [
-        [3,6],
-        [4,8]
+        [3,1],
+        [7,8]
       ],
       [
-        [3,6],
-        [4,8]
+        [8,9],
+        [4,2]
       ],
       [
-        [3,6],
-        [4,8]
+        [4,1],
+        [7,6]
       ],
       [
-        [3,6],
-        [4,8]
+        [8,7],
+        [5,2]
       ],
       [
-        [3,6],
-        [4,8]
+        [6,3],
+        [11,12]
       ],
       [
-        [3,6],
-        [4,8]
+        [12,13],
+        [7,4]
       ],
       [
-        [3,6],
-        [4,8]
+        [13,14],
+        [11,10],
+        [7,3],
+        [8,5]
       ],
       [
-        [3,6],
-        [4,8]
+        [12,11],
+        [8,4]
       ],
       [
-        [3,6],
-        [4,8]
+        [13,12],
+        [9,5]
       ]
     ]}
   />, 
