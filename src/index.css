@@ -19,7 +19,7 @@ code {
   100% {visibility:visible;}
 }
 
-#game-message {
+#game-message-old {
 	position:absolute;
   height: 100px;
   top: 10px;
@@ -46,7 +46,7 @@ button:focus {
 }
 
 #peg-location.from-selected {
-	background-color:red;
+	background-color:darkgrey;
 }
 
 #peg-location.to-selectable {
@@ -57,13 +57,44 @@ button:focus {
 	animation-iteration-count:infinite;
 }
 
-.game-controls {
+#game-controls {
 	display:inline-block;
 	vertical-align:top;
+	width:300px
 }
 
-.game-controls.button {
+#game-control-header {
+	font-size:40px;
+	font-weight:bold;
+	text-decoration:underline;
+}
+
+#game-message {
+	text-decoration:none;
+	font-size:18px;
+	visibility:hidden;	
+	width:100%;	
+}
+
+#game-message.won {
+	color:green;
+	visibility:visible;
+}
+
+#game-message.lost {
+	color:red;
+	visibility:visible;
+}
+
+#game-controls button {
 	border-radius: 20px;
+	display:block;
+	margin-top:10px;
+	text-decoration:none;
+}
+
+#game-controls button:hover {
+	cursor: pointer;
 }
 
 .game-board {
@@ -73,7 +104,7 @@ button:focus {
 }
 
 #peg-location.from-selectable:hover {
-	background-color:blue;
+	background-color:lightgrey;
   cursor:pointer;		
 }
 
@@ -82,6 +113,4 @@ button:focus {
   cursor:pointer;		
 }
 
-#peg-location.from-selected:hover {
-  cursor:pointer;		
-}
+

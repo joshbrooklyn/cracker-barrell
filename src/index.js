@@ -17,12 +17,27 @@ function GameMessage(props){
 }
 
 function GameControls(props){
+	console.log(props.gameResult);
+	let messageClass = "";
+	let messageText = "";
+	if (props.gameResult) {
+		if (props.gameResult === 1) {
+			messageClass = "won";
+			messageText = "You Won!!!";
+		}
+		else if(props.gameResult === -1){
+			messageClass = "lost";
+			messageText = "Sorry, you are out of moves with more than one peg left, which means you lost. Click \"Reset Game\" to try again!";			
+		}
+						
+	}
+	
 	return (
-		<div className="game-controls">
-			<div>Game Controls</div>
+		<div id="game-controls">
+			<div id="game-control-header">Game Controls</div>
 			<button>Reset Game</button>			
-			<button>Undo Move</button>			
-			<button>Get Hint</button>			
+			<button>Get Hint</button>
+			<div id="game-message" className={messageClass}>{messageText}</div>			
 		</div>
 	)
 }
@@ -86,10 +101,6 @@ class Board extends React.Component {
 
 		return (
 		  <div className="game-board">
-		  	<GameMessage
-						showMessage = {false}
-						message = 'You Won!!!'					
-				/>	
 		  	{rows}
 		 	</div>
     );
@@ -99,6 +110,8 @@ class Board extends React.Component {
 class CrackerBarrell extends React.Component {
 	constructor(props) {
 		super(props);
+		
+		this.unslectPeg = this.unselectPeg.bind(this);
 		
 		this.state = {
 			history: [{
@@ -111,8 +124,26 @@ class CrackerBarrell extends React.Component {
 			}],			
 			
 			selectedPeg:null,
+			gameResult:null,
 		};
 	}
+
+	unselectPeg(e) {
+		//console.log(e);
+		
+	  /*if (this.node.contains(e.target)) {
+	    return;
+	  }*/
+	
+		const history = this.state.history;	
+		
+		document.removeEventListener('click', this.unslectPeg, false);
+		
+  	this.setState ({
+			selectedPeg: null,
+				history: history,					 
+		});		
+	};
 	
 	handleClick(i, selectablePegs, selectableHoles) {
 		const selectedPeg = this.state.selectedPeg;
@@ -122,6 +153,8 @@ class CrackerBarrell extends React.Component {
 		
 		if (selectedPeg === null) {		
 			if (selectablePegs[i]) { // only do anyting if the peg has a valid move
+				document.addEventListener('click', this.unslectPeg, false);	
+
 				this.setState ({
 					selectedPeg: i,
 				});
@@ -142,13 +175,17 @@ class CrackerBarrell extends React.Component {
 		  	  pegLocations: pegLocations,
 		  	  lastMove: lastMove   
 		  	});
+				
+				document.removeEventListener('click', this.unslectPeg, false);
 		  	
 		  	this.setState ({
 					selectedPeg: null,
-					history: history,					 
+						history: history,					 
 				});
 			}
-		}
+			/*else if (i === selectedPeg)
+				return;*/
+		}		
 	} 
 	
 	render() {
@@ -158,6 +195,8 @@ class CrackerBarrell extends React.Component {
 		
 		let selectablePegs = 0;
     let selectableHoles = 0;
+    
+    
     if(this.state.selectedPeg === null) {
 	    selectablePegs = pegLocations.map((hasPeg,idx) => {
 	     if (hasPeg === 0) return 0;
@@ -171,7 +210,14 @@ class CrackerBarrell extends React.Component {
 	     }
 	     
 	     return retVal;
-	    });		
+	    });	
+	    
+	    
+	    if (selectablePegs.indexOf(1) === -1 && this.state.gameResult !== -1){ 
+	    	this.setState ({
+	    		gameResult:-1,	
+	    	});	
+	    }	
 	  } else {
 	  	selectableHoles = pegLocations.map((hasPeg,idx) => {
 	     if (hasPeg === 1) return 0;
@@ -187,7 +233,7 @@ class CrackerBarrell extends React.Component {
 	     return retVal;
 	  	});
 	  }
-		
+				
 		return (
 			<div>
 				<Board 
@@ -197,7 +243,9 @@ class CrackerBarrell extends React.Component {
 					selectableHoles = {selectableHoles}
 					onClick={(i) => this.handleClick(i, selectablePegs, selectableHoles)}
 				/>
-				<GameControls />
+				<GameControls 
+					gameResult = {this.state.gameResult}
+				/>
 			</div>
 		);
 	}
