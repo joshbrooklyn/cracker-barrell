@@ -10,11 +10,11 @@ function PegLocation(props){
 	);
 }
 
-function GameMessage(props){
+/*function GameMessage(props){
 	return(
 		<div id="game-message" style={props.showMessage ? {visibility:'visible'} : {visibility:'hidden'}}>{props.message}</div>
 	)
-}
+}*/
 
 function GameControls(props){
 	console.log(props.gameResult);
@@ -255,7 +255,7 @@ ReactDOM.render(
   <CrackerBarrell 
     emptyPeg={Math.floor(Math.random() * Math.floor(14))}
     
-    //below are the valid moves for each peg location, with the index of the validMoves array being th peg location key
+    //below are the valid moves for each peg location, with the index of the validMoves array being the peg location key
     validMoves={[
       [
         [1,3],
