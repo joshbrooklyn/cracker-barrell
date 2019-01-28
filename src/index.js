@@ -17,7 +17,7 @@ function PegLocation(props){
 }*/
 
 function GameControls(props){
-	console.log(props.gameResult);
+	//console.log(props.gameResult);
 	let messageClass = "";
 	let messageText = "";
 	if (props.gameResult) {
@@ -35,7 +35,7 @@ function GameControls(props){
 	return (
 		<div id="game-controls">
 			<div id="game-control-header">Game Controls</div>
-			<button>Reset Game</button>			
+			<button onClick={props.resetGame.bind(this)}>Reset Game</button>			
 			<button>Get Hint</button>
 			<div id="game-message" className={messageClass}>{messageText}</div>			
 		</div>
@@ -129,9 +129,7 @@ class CrackerBarrell extends React.Component {
 	}
 
 	unselectPeg(e) {
-		//console.log(e);
-		
-	  /*if (this.node.contains(e.target)) {
+		/*if (this.node.contains(e.target)) {
 	    return;
 	  }*/
 	
@@ -144,6 +142,24 @@ class CrackerBarrell extends React.Component {
 				history: history,					 
 		});		
 	};
+	
+	resetGame() {
+		let emptyPeg = Math.floor(Math.random() * Math.floor(14));
+		
+		this.setState ({
+			history: [{
+				pegLocations: Array(15).fill(1).map((isEmpty,idx) => {
+					let retVal = emptyPeg === idx ? 0 : 1;
+					
+					return retVal;
+				}),
+				lastMove: null,
+			}],			
+			
+			selectedPeg:null,
+			gameResult:null,
+		});
+	}
 	
 	handleClick(i, selectablePegs, selectableHoles) {
 		const selectedPeg = this.state.selectedPeg;
@@ -168,8 +184,6 @@ class CrackerBarrell extends React.Component {
 		    pegLocations[lastMove[0][0]] = 0;
 		    pegLocations[lastMove[0][1]] = 1;
 		    pegLocations[selectedPeg] = 0;
-		    //console.log(lastMove);
-		    //console.log(lastMove[0]);
 		    
 		  	history.push({
 		  	  pegLocations: pegLocations,
@@ -245,6 +259,7 @@ class CrackerBarrell extends React.Component {
 				/>
 				<GameControls 
 					gameResult = {this.state.gameResult}
+					resetGame = {() => this.resetGame()}
 				/>
 			</div>
 		);
