@@ -182,14 +182,17 @@ class CrackerBarrell extends React.Component {
 	
 	undoMove() {
 		let tmpHistory = this.state.history.slice(0,this.state.history.length - 1);
-		console.log(this.state.history.length);
-		console.log(tmpHistory);
-				
-		/*this.setState ({
-			history: tmpHistory,						
-			selectedPeg:null,
-			gameResult:null,
-		});*/
+		
+		if (tmpHistory.length > 0) {		
+			console.log(this.state.history.length);
+			console.log(tmpHistory);
+					
+			this.setState ({
+				history: tmpHistory,						
+				selectedPeg:null,
+				gameResult:null,
+			});
+		}
 	}
 	
 	handleClick(i, selectablePegs, selectableHoles) {
