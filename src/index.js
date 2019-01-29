@@ -36,7 +36,7 @@ function GameControls(props){
 		<div id="game-controls">
 			<div id="game-control-header">Game Controls</div>
 			<button onClick={props.resetGame.bind(this)}>Reset Game</button>			
-			<button>Get Hint</button>
+			<button onClick={props.giveHint.bind(this)}>Get Hint</button>
 			<div id="game-message" className={messageClass}>{messageText}</div>			
 		</div>
 	)
@@ -142,6 +142,24 @@ class CrackerBarrell extends React.Component {
 				history: history,					 
 		});		
 	};
+	
+  /*tryMove(jumpFrom, move)
+	{
+		let pegLocations = history[history.length - 1].pegLocations;
+		const validMoves = this.props.validMoves;
+	}*/
+	
+	giveHint() {
+		console.log("Give Hint");
+		
+		/*if(tryMove(0, null)){
+			console.log("Move Found");
+		}
+		else
+		{
+			console.log("No Way to Win");			
+		}*/
+	}
 	
 	resetGame() {
 		let emptyPeg = Math.floor(Math.random() * Math.floor(14));
@@ -260,6 +278,7 @@ class CrackerBarrell extends React.Component {
 				<GameControls 
 					gameResult = {this.state.gameResult}
 					resetGame = {() => this.resetGame()}
+					giveHint ={() => this.giveHint()}
 				/>
 			</div>
 		);
