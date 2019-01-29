@@ -36,6 +36,7 @@ function GameControls(props){
 		<div id="game-controls">
 			<div id="game-control-header">Game Controls</div>
 			<button onClick={props.resetGame.bind(this)}>Reset Game</button>			
+			<button onClick={props.undoMove.bind(this)}>Undo Move</button>
 			<button onClick={props.giveHint.bind(this)}>Get Hint</button>
 			<div id="game-message" className={messageClass}>{messageText}</div>			
 		</div>
@@ -179,10 +180,23 @@ class CrackerBarrell extends React.Component {
 		});
 	}
 	
+	undoMove() {
+		let tmpHistory = this.state.history.slice(0,this.state.history.length - 1);
+		console.log(this.state.history.length);
+		console.log(tmpHistory);
+				
+		/*this.setState ({
+			history: tmpHistory,						
+			selectedPeg:null,
+			gameResult:null,
+		});*/
+	}
+	
 	handleClick(i, selectablePegs, selectableHoles) {
 		const selectedPeg = this.state.selectedPeg;
 		const history = this.state.history;
-		let pegLocations = history[history.length - 1].pegLocations;
+		
+		let pegLocations = history[history.length - 1].pegLocations.slice(0);
 		const validMoves = this.props.validMoves;
 		
 		if (selectedPeg === null) {		
@@ -209,6 +223,8 @@ class CrackerBarrell extends React.Component {
 		  	});
 				
 				document.removeEventListener('click', this.unslectPeg, false);
+		  	
+		  	//console.log(history);
 		  	
 		  	this.setState ({
 					selectedPeg: null,
@@ -278,6 +294,7 @@ class CrackerBarrell extends React.Component {
 				<GameControls 
 					gameResult = {this.state.gameResult}
 					resetGame = {() => this.resetGame()}
+					undoMove = {() => this.undoMove()}
 					giveHint ={() => this.giveHint()}
 				/>
 			</div>
