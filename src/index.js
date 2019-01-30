@@ -29,9 +29,11 @@ function GameControls(props){
 	return (
 		<div id="game-controls">
 			<div id="game-control-header">Game Controls</div>
-			<button onClick={props.resetGame.bind(this)}>Reset Game</button>			
-			<button onClick={props.undoMove.bind(this)}>Undo Move</button>
-			<div id="game-message" className={messageClass}>{messageText}</div>			
+			<div id="game-control-main">
+				<button onClick={props.resetGame.bind(this)}>Reset Game</button>			
+				<button onClick={props.undoMove.bind(this)}>Undo Move</button>
+				<div id="game-message" className={messageClass}>{messageText}</div>			
+			</div>
 		</div>
 	)
 }

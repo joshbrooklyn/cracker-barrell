@@ -49,14 +49,6 @@ code {
 	//background-color:purple;
 }
 
-#game-controls {
-	display:inline-block;
-	vertical-align:top;
-	width:300px;
-	height:100%;
-	border-left: 1px solid black;
-	padding-left:50px;
-}
 
 #game-message-old {
 	position:absolute;
@@ -119,17 +111,39 @@ button:focus {
 	margin-top:4px;
 }
 
+
+#game-controls {
+	display:inline-block;
+	vertical-align:top;
+	width:379px;
+	height:100%;
+	border-left: 1px solid black;
+	font-family:"Times New Roman";
+}
+
 #game-control-header {
 	font-size:40px;
+	width:100%;
 	font-weight:bold;
-	text-decoration:underline;
+	text-align:center;
+	//text-decoration:underline;
+	background-color:#d3ed9e;
+}
+
+#game-control-main {
+	font-size:40px;
+	font-weight:bold;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top:5px
 }
 
 #game-message {
 	text-decoration:none;
 	font-size:18px;
 	visibility:hidden;	
-	width:100%;	
+	padding-top: 12px;
+	padding-left:5px;
 }
 
 #game-message.won {
@@ -138,7 +152,7 @@ button:focus {
 }
 
 #game-message.lost {
-	color:red;
+	color:orange;
 	visibility:visible;
 }
 
