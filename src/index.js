@@ -17,7 +17,7 @@ function GameControls(props){
 	if (props.gameResult) {
 		if (props.gameResult === 1) {
 			messageClass = "won";
-			messageText = "You Won!!!";
+			messageText = "You Won!!! Click Reset Game to play again.";
 		}
 		else if(props.gameResult === -1){
 			messageClass = "lost";
@@ -154,17 +154,29 @@ class CrackerBarrell extends React.Component {
 	
   resetGame() {
 		let emptyPeg = Math.floor(Math.random() * Math.floor(14));
+		let history = [{
+			pegLocations: Array(15).fill(1).map((isEmpty,idx) => {
+				let retVal = emptyPeg === idx ? 0 : 1;
+				
+				return retVal;
+			}),
+			lastMove: null,
+		}];
+		
+		// cheat code for testing win condition
+		/*let history = [{
+			pegLocations: Array(15).fill(1).map((isEmpty,idx) => {
+				if (idx == 0 || idx == 1) {
+					return 1;
+				} else {
+					return 0;
+				}
+			}),
+			lastMove: null,
+		}];		*/
 		
 		this.setState ({
-			history: [{
-				pegLocations: Array(15).fill(1).map((isEmpty,idx) => {
-					let retVal = emptyPeg === idx ? 0 : 1;
-					
-					return retVal;
-				}),
-				lastMove: null,
-			}],			
-			
+			history: history,						
 			selectedPeg:null,
 			gameResult:null,
 		});
@@ -251,10 +263,21 @@ class CrackerBarrell extends React.Component {
 	    });	
 	    
 	    
-	    if (selectablePegs.indexOf(1) === -1 && this.state.gameResult !== -1){ 
-	    	this.setState ({
-	    		gameResult:-1,	
-	    	});	
+	    //&& this.state.gameResult !== -1){ 
+	    
+	    if (selectablePegs.indexOf(1) === -1) { // there are no more valid moves
+	    	if ((pegLocations.indexOf(1) === pegLocations.lastIndexOf(1))) { //there is only one peg left - win condition
+	    		if(this.state.gameResult != 1) { // only update the game state once to avoid infinit render loop
+		    		this.setState({
+		    			gameResult:1,
+		    		});
+		    	}
+	    	}
+	    	else if(this.state.gameResult !== -1) { // there is more than one peg left - loss condition
+		    	this.setState ({
+		    		gameResult:-1,	
+		    	});	
+		    }
 	    }	
 	  } else {
 	  	selectableHoles = pegLocations.map((hasPeg,idx) => {
