@@ -67,8 +67,8 @@ code {
 }
 
 #peg-location {
-	height:30px;
-	width:30px; 
+	height:33px;
+	width:33px; 
 	display:inline-block;
 	border: 2px solid black;
 	border-radius: 100%;
@@ -82,8 +82,9 @@ button:focus {
 
 #peg-location.empty {
 	background-color:black;
-	height:19px;
-	width:19px; 	
+	height:22px;
+	width:22px; 	
+	margin-top:7px;
 }
 
 #peg-location.from-selected {
@@ -92,8 +93,9 @@ button:focus {
 
 #peg-location.to-selectable {
 	background-color:black;
-	height:19px;
-	width:19px; 	
+	height:22px;
+	width:22px; 	
+	margin-top:7px;
 	//animation-name:selectable-hole;
 	animation-duration: .5s;
 	animation-delay:0s;
@@ -112,8 +114,9 @@ button:focus {
 
 #peg-location.to-selectable:hover {
 	cursor:pointer;		
-	height:25px;
-	width:25px; 	
+	height:28px;
+	width:28px; 	
+	margin-top:4px;
 }
 
 #game-control-header {
