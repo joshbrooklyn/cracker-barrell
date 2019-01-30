@@ -10,14 +10,8 @@ function PegLocation(props){
 	);
 }
 
-/*function GameMessage(props){
-	return(
-		<div id="game-message" style={props.showMessage ? {visibility:'visible'} : {visibility:'hidden'}}>{props.message}</div>
-	)
-}*/
-
 function GameControls(props){
-	//console.log(props.gameResult);
+	
 	let messageClass = "";
 	let messageText = "";
 	if (props.gameResult) {
@@ -43,10 +37,7 @@ function GameControls(props){
 }
 
 class Board extends React.Component {
-  /*hasValidMove(pegLocations, validMoves, pegToTest)
-  {
-      
-  }	*/
+
   render() {
   
     const selectablePegs = this.props.selectablePegs;
@@ -149,10 +140,6 @@ class CrackerBarrell extends React.Component {
 	}
 
 	unselectPeg(e) {
-		/*if (this.node.contains(e.target)) {
-	    return;
-	  }*/
-	
 		const history = this.state.history;	
 		
 		document.removeEventListener('click', this.unslectPeg, false);
@@ -235,8 +222,6 @@ class CrackerBarrell extends React.Component {
 						history: history,					 
 				});
 			}
-			/*else if (i === selectedPeg)
-				return;*/
 		}		
 	} 
 	
