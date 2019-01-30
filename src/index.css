@@ -106,9 +106,9 @@ button:focus {
 
 #peg-location.to-selectable:hover {
 	cursor:pointer;		
-	height:28px;
-	width:28px; 	
-	margin-top:4px;
+	height:33px;
+	width:33px; 	
+	margin-top:-1px;
 }
 
 
