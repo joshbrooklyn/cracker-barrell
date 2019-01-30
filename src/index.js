@@ -50,13 +50,13 @@ class Board extends React.Component {
 	  
 	  for (let i = 0; i <= 4; i++) {
 	  	let col = [];
-	  	let rowPadding = (400/2 - (40 * (i + 1))) + 1;
-	  	let rowWidth = 80 * (i + 1);
+	  	let rowPadding = (400/2 - (36 * (i + 1))) + 1;
+	  	let rowWidth = 72 * (i + 1);
 	  	let cellwidth = rowWidth / (i + 1);
 	  	
 	  	const rowStyles = {
 	  		marginLeft: rowPadding + 'px',
-	  		height: "56px",
+	  		height: "53px",
 	  		backgroundColor:"transparent",
 	  		//border: "1px solid black",
 	  		borderBottom: "none",
