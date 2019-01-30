@@ -59,15 +59,22 @@ class Board extends React.Component {
 	  
 	  for (let i = 0; i <= 4; i++) {
 	  	let col = [];
-	  	let padding = (10 - i) / 2 * 10;
+	  	let rowPadding = (400/2 - (40 * (i + 1))) + 1;
+	  	let rowWidth = 80 * (i + 1);
+	  	let cellwidth = rowWidth / (i + 1);
 	  	
-	  	const styles = {
-	  		paddingLeft: padding + '%'
+	  	const rowStyles = {
+	  		marginLeft: rowPadding + 'px',
+	  		height: "56px",
+	  		backgroundColor:"transparent",
+	  		//border: "1px solid black",
+	  		borderBottom: "none",
+	  		width: rowWidth + "px"
 	  	};
 	  	
 	  	for (let j = 0; j <= i; j++)
 	  	{
-	  		let pegClass = 'peg-location-occupied';
+	  		let pegClass = 'peg-location-occupied';	  		
 	  		
 	  		if (selectedPeg === null){
 		  		if (!pegLocations[key])
@@ -85,23 +92,36 @@ class Board extends React.Component {
 
 	  		
 	  		col.push(
+	  		  <div style={{
+	  		  	//border:"1px solid black", 
+	  		  	borderBottom:"none", 
+	  		  	display:"inline-block",
+	  		  	height:"100%",
+	  		  	width:cellwidth + "px",
+	  		  	textAlign:"center",
+	  		  	verticalAlign:"middle"
+	  		  }}>
 	  			<PegLocation 
 	  				pegClass={pegClass} 
 	  				key={key}
 	  				pegNum={key}
 	  				onClick={(i) => this.props.onClick(i)}
 	  			/>
+	  			</div>
 	  		); 		 
 	  	  
 	  	  key++; 		
 	  	}
 	  	
-	  	rows.push(<div style={styles}>{col}</div>);
+	  	rows.push(<div style={rowStyles}>{col}</div>);
 	  }
 
 		return (
-		  <div className="game-board">
+		  <div id="game-board">
+		  	<div className="triangle"/>
+		  	<div className="pegs">
 		  	{rows}
+		  	</div>
 		 	</div>
     );
 	}
@@ -267,7 +287,7 @@ class CrackerBarrell extends React.Component {
 	  }
 				
 		return (
-			<div>
+			<div id="cracker-barrell">
 				<Board 
 					pegLocations = {pegLocations}
 					selectedPeg = {this.state.selectedPeg}
