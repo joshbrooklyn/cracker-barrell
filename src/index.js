@@ -37,7 +37,6 @@ function GameControls(props){
 			<div id="game-control-header">Game Controls</div>
 			<button onClick={props.resetGame.bind(this)}>Reset Game</button>			
 			<button onClick={props.undoMove.bind(this)}>Undo Move</button>
-			<button onClick={props.giveHint.bind(this)}>Get Hint</button>
 			<div id="game-message" className={messageClass}>{messageText}</div>			
 		</div>
 	)
@@ -164,25 +163,7 @@ class CrackerBarrell extends React.Component {
 		});		
 	};
 	
-  /*tryMove(jumpFrom, move)
-	{
-		let pegLocations = history[history.length - 1].pegLocations;
-		const validMoves = this.props.validMoves;
-	}*/
-	
-	giveHint() {
-		console.log("Give Hint");
-		
-		/*if(tryMove(0, null)){
-			console.log("Move Found");
-		}
-		else
-		{
-			console.log("No Way to Win");			
-		}*/
-	}
-	
-	resetGame() {
+  resetGame() {
 		let emptyPeg = Math.floor(Math.random() * Math.floor(14));
 		
 		this.setState ({
@@ -266,7 +247,6 @@ class CrackerBarrell extends React.Component {
 		
 		let selectablePegs = 0;
     let selectableHoles = 0;
-    
     
     if(this.state.selectedPeg === null) {
 	    selectablePegs = pegLocations.map((hasPeg,idx) => {
