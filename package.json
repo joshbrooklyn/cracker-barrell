@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && ~/git/cracker-barrell/deploy_scripts/deploy.sh",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
