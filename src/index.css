@@ -13,10 +13,49 @@ code {
     monospace;
 }
 
-@keyframes selectable-hole {
-  0%  {visibility:visible;}
-  50% {visibility:hidden;}
-  100% {visibility:visible;}
+#cracker-barrell {
+	width: 800px;
+	height: 300px;
+	border: 1px solid black;
+	margin-top: 10px;
+	margin-left: 10px;
+	background-color:#FFFCC9;
+}
+
+#game-board {
+	width:400px;
+	height:280px;
+	display:inline-block;
+	padding: 10px;
+}
+
+.triangle {
+	height:0;
+	width:0;
+	border-style: solid;
+	border-left-color: transparent;
+	border-right-color: transparent;
+	border-top-color: transparent;
+	border-bottom-color:#f4a442;
+	border-width:0px 200px 280px 200px;	
+}
+
+.pegs {
+	top: 20px;
+	left: 20px;
+	position:absolute;
+	padding-top:20px;
+	//visibility:hidden;
+	//background-color:purple;
+}
+
+#game-controls {
+	display:inline-block;
+	vertical-align:top;
+	width:300px;
+	height:100%;
+	border-left: 1px solid black;
+	padding-left:50px;
 }
 
 #game-message-old {
@@ -28,13 +67,13 @@ code {
 }
 
 #peg-location {
-	height:50px;
-	width:50px; 
+	height:33px;
+	width:33px; 
 	display:inline-block;
 	border: 2px solid black;
 	border-radius: 100%;
-	margin-right:5px;
-	background-color: black;
+	background-color: #b00000;
+	//visibility:hidden;
 }
 
 button:focus {
@@ -42,25 +81,42 @@ button:focus {
 }
 
 #peg-location.empty {
-	background-color:white;
+	background-color:black;
+	height:22px;
+	width:22px; 	
+	margin-top:7px;
 }
 
 #peg-location.from-selected {
-	background-color:darkgrey;
+	background-color:#ff0000;
 }
 
 #peg-location.to-selectable {
-	background-color:white;
-	animation-name:selectable-hole;
-	animation-duration: 1s;
+	background-color:black;
+	height:22px;
+	width:22px; 	
+	margin-top:7px;
+	//animation-name:selectable-hole;
+	animation-duration: .5s;
 	animation-delay:0s;
 	animation-iteration-count:infinite;
 }
 
-#game-controls {
-	display:inline-block;
-	vertical-align:top;
-	width:300px
+@keyframes selectable-hole {
+  from {background-color: black;}
+  to {background-color: #FFFCC9;}	
+}
+
+#peg-location.from-selectable:hover {
+	background-color:#df0000;
+  cursor:pointer;		
+}
+
+#peg-location.to-selectable:hover {
+	cursor:pointer;		
+	height:28px;
+	width:28px; 	
+	margin-top:4px;
 }
 
 #game-control-header {
@@ -97,20 +153,5 @@ button:focus {
 	cursor: pointer;
 }
 
-.game-board {
-	width:400px;
-	height:400px;
-	display:inline-block;
-}
-
-#peg-location.from-selectable:hover {
-	background-color:lightgrey;
-  cursor:pointer;		
-}
-
-#peg-location.to-selectable:hover {
-	background-color:lightgrey;
-  cursor:pointer;		
-}
 
 
