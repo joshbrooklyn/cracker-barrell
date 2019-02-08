@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from "axios";
 import './index.css';
 //import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -93,7 +94,8 @@ class Board extends React.Component {
 	  		  	width:cellwidth + "px",
 	  		  	textAlign:"center",
 	  		  	verticalAlign:"middle"
-	  		  }}>
+	  		  }}
+	  		  key={key}>
 	  			<PegLocation 
 	  				pegClass={pegClass} 
 	  				key={key}
@@ -106,7 +108,7 @@ class Board extends React.Component {
 	  	  key++; 		
 	  	}
 	  	
-	  	rows.push(<div style={rowStyles}>{col}</div>);
+	  	rows.push(<div style={rowStyles} key={i}>{col}</div>);
 	  }
 
 		return (
@@ -163,18 +165,6 @@ class CrackerBarrell extends React.Component {
 			lastMove: null,
 		}];
 		
-		// cheat code for testing win condition
-		/*let history = [{
-			pegLocations: Array(15).fill(1).map((isEmpty,idx) => {
-				if (idx == 0 || idx == 1) {
-					return 1;
-				} else {
-					return 0;
-				}
-			}),
-			lastMove: null,
-		}];		*/
-		
 		this.setState ({
 			history: history,						
 			selectedPeg:null,
@@ -229,8 +219,6 @@ class CrackerBarrell extends React.Component {
 				
 				document.removeEventListener('click', this.unslectPeg, false);
 		  	
-		  	//console.log(history);
-		  	
 		  	this.setState ({
 					selectedPeg: null,
 						history: history,					 
@@ -238,6 +226,19 @@ class CrackerBarrell extends React.Component {
 			}
 		}		
 	} 
+	
+	saveGame(history, gameResult){
+		axios.post('http://jhmedia:3001/game_results', {
+			name: "Trogdor",
+			game_result: gameResult,
+			game_history: history
+		/*}).then(res => {
+		  console.log(res);
+      console.log(res.data);			*/
+		}).catch( error => {
+    	console.log(error);
+  	});	
+	}
 	
 	render() {
 		const history = this.state.history;
@@ -262,18 +263,19 @@ class CrackerBarrell extends React.Component {
 	     return retVal;
 	    });	
 	    
-	    
-	    //&& this.state.gameResult !== -1){ 
-	    
 	    if (selectablePegs.indexOf(1) === -1) { // there are no more valid moves
 	    	if ((pegLocations.indexOf(1) === pegLocations.lastIndexOf(1))) { //there is only one peg left - win condition
 	    		if(this.state.gameResult != 1) { // only update the game state once to avoid infinit render loop
+		    		this.saveGame(history, 1);
+		    		
 		    		this.setState({
 		    			gameResult:1,
 		    		});
 		    	}
 	    	}
 	    	else if(this.state.gameResult !== -1) { // there is more than one peg left - loss condition
+		    	this.saveGame(history, -1);
+		    	
 		    	this.setState ({
 		    		gameResult:-1,	
 		    	});	
