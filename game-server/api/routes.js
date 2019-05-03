@@ -5,4 +5,7 @@ module.exports = function(app) {
   app.route('/game_results')
     .get(gameResult.listAllGames)
     .post(gameResult.addGameResult);
+    
+	app.route('/aggregate_results')
+		.get(gameResult.listAggregateResults);
 };

@@ -111,6 +111,14 @@ button:focus {
 	margin-top:-1px;
 }
 
+#game-history {
+	vertical-align:top;
+	width:799px;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+	font-family:"Times New Roman";
+}
 
 #game-controls {
 	display:inline-block;

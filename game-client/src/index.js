@@ -15,14 +15,22 @@ function GameControls(props){
 	
 	let messageClass = "";
 	let messageText = "";
-	if (props.gameResult) {
-		if (props.gameResult === 1) {
-			messageClass = "won";
-			messageText = "You Won!!! Click Reset Game to play again.";
-		}
-		else if(props.gameResult === -1){
+	if (props.gameOver) {
+		if (props.pegsRemaining > 3) {
 			messageClass = "lost";
-			messageText = "Sorry, you are out of moves with more than one peg left, which means you lost. Click \"Reset Game\" to try again!";			
+			messageText = "There are no more valid moves, the game is over. You finished with 4 or more pegs left, so you scored 0 points. Click \"Reset Game\" to try again!";
+		}
+		else{
+    	let score = 0;
+    	if (props.pegsRemaining === 1)
+    		score = 5;
+    	if (props.pegsRemaining === 2)
+    		score = 3;
+    	if (props.pegsRemaining === 3)
+    		score = 1;	   
+			
+			messageClass = "won";
+			messageText = "There are no more valid moves, the game is over. You finished with " + props.pegsRemaining + " pegs left for a score of " + score + ". Click \"Reset Game\" to try again!";
 		}
 						
 	}
@@ -35,6 +43,23 @@ function GameControls(props){
 				<button onClick={props.undoMove.bind(this)}>Undo Move</button>
 				<div id="game-message" className={messageClass}>{messageText}</div>			
 			</div>
+		</div>
+	)
+}
+
+function GameHistory(props){
+	//console.log(props.oldGames);
+	let games = [];
+	
+	if (props.oldGames){
+		games = props.oldGames.map((game, idx) => {
+			return <div key={idx}>{game.name}, {game.created_date}, {game.game_score}</div>
+		})
+	}
+	
+	return (
+		<div id="game-history">
+			{ games }
 		</div>
 	)
 }
@@ -122,7 +147,7 @@ class Board extends React.Component {
 	}
 }
 
-class CrackerBarrell extends React.Component {
+export default class CrackerBarrell extends React.Component {
 	constructor(props) {
 		super(props);
 		
@@ -139,7 +164,9 @@ class CrackerBarrell extends React.Component {
 			}],			
 			
 			selectedPeg:null,
-			gameResult:null,
+			gameOver:0,
+			pegsRemaining:null,
+			oldGames:null,
 		};
 	}
 
@@ -168,7 +195,8 @@ class CrackerBarrell extends React.Component {
 		this.setState ({
 			history: history,						
 			selectedPeg:null,
-			gameResult:null,
+			gameOver:0,
+			pegsRemaining:null
 		});
 	}
 	
@@ -176,13 +204,13 @@ class CrackerBarrell extends React.Component {
 		let tmpHistory = this.state.history.slice(0,this.state.history.length - 1);
 		
 		if (tmpHistory.length > 0) {		
-			console.log(this.state.history.length);
-			console.log(tmpHistory);
+			//console.log(this.state.history.length);
+			//console.log(tmpHistory);
 					
 			this.setState ({
 				history: tmpHistory,						
 				selectedPeg:null,
-				gameResult:null,
+				gameOver:0,
 			});
 		}
 	}
@@ -227,17 +255,22 @@ class CrackerBarrell extends React.Component {
 		}		
 	} 
 	
-	saveGame(history, gameResult){
+	saveGame(history, score){
 		axios.post('http://jhmedia:3001/game_results', {
 			name: "Trogdor",
-			game_result: gameResult,
+			game_result: score,
 			game_history: history
-		/*}).then(res => {
-		  console.log(res);
-      console.log(res.data);			*/
 		}).catch( error => {
     	console.log(error);
   	});	
+	}
+	
+	componentDidMount() {
+		axios.get('http://jhmedia:3001/game_results')
+			.then(res => {
+				const oldGames = res.data;
+				this.setState({oldGames: oldGames});
+			})
 	}
 	
 	render() {
@@ -250,35 +283,40 @@ class CrackerBarrell extends React.Component {
     
     if(this.state.selectedPeg === null) {
 	    selectablePegs = pegLocations.map((hasPeg,idx) => {
-	     if (hasPeg === 0) return 0;
+	     	if (hasPeg === 0) return 0;
 	     
-	     const moves = this.props.validMoves[idx];
-	     let retVal = 0;
+	     	const moves = this.props.validMoves[idx];
+	     	let retVal = 0;
 	     
-	     for (let move of moves) {
-	      if (pegLocations[move[0]] !== 0 && pegLocations[move[1]] != 1)
+	     	for (let move of moves) {
+	      	if (pegLocations[move[0]] !== 0 && pegLocations[move[1]] !== 1)
 	        retVal = 1;     
-	     }
+	     	}
 	     
-	     return retVal;
+	     	return retVal;
 	    });	
 	    
 	    if (selectablePegs.indexOf(1) === -1) { // there are no more valid moves
-	    	if ((pegLocations.indexOf(1) === pegLocations.lastIndexOf(1))) { //there is only one peg left - win condition
-	    		if(this.state.gameResult != 1) { // only update the game state once to avoid infinit render loop
-		    		this.saveGame(history, 1);
-		    		
-		    		this.setState({
-		    			gameResult:1,
-		    		});
-		    	}
-	    	}
-	    	else if(this.state.gameResult !== -1) { // there is more than one peg left - loss condition
-		    	this.saveGame(history, -1);
+	    	if (this.state.gameOver !== 1) { // avoid infinite render loop
+	    	
+		    	let pegsRemaining = pegLocations.filter((itm) => {
+		    		return itm === 1;
+		    	}).length;
 		    	
-		    	this.setState ({
-		    		gameResult:-1,	
-		    	});	
+		    	let score = 0;
+		    	if (pegsRemaining === 1)
+		    		score = 5;
+		    	if (pegsRemaining === 2)
+		    		score = 3;
+		    	if (pegsRemaining === 3)
+		    		score = 1;	    			    	
+	    	
+	    		this.saveGame(history, score);
+	    		
+	    		this.setState({
+		    			gameOver:1,
+		    			pegsRemaining: pegsRemaining,
+		    	});
 		    }
 	    }	
 	  } else {
@@ -296,7 +334,7 @@ class CrackerBarrell extends React.Component {
 	     return retVal;
 	  	});
 	  }
-				
+		
 		return (
 			<div id="cracker-barrell">
 				<Board 
@@ -307,10 +345,14 @@ class CrackerBarrell extends React.Component {
 					onClick={(i) => this.handleClick(i, selectablePegs, selectableHoles)}
 				/>
 				<GameControls 
-					gameResult = {this.state.gameResult}
+					gameOver = {this.state.gameOver}
+					pegsRemaining = {this.state.pegsRemaining}
 					resetGame = {() => this.resetGame()}
 					undoMove = {() => this.undoMove()}
 					giveHint ={() => this.giveHint()}
+				/>
+				<GameHistory
+				  oldGames = {this.state.oldGames}
 				/>
 			</div>
 		);

@@ -11,9 +11,9 @@ var GameResultSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  game_result: {
+  game_score: {
     type: Number,
-    required: 'Game Result is required'
+    required: 'Game Score is required'
   },
   game_history: Array 
 });
