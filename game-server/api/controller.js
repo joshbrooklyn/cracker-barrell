@@ -14,7 +14,7 @@ exports.listAllGames = function(req, res) {
 
 exports.listAggregateResults = function (req, res) {
 	GameResult.aggregate([
-		{ $group: {_id: "$name", total: { $sum: "$game_result"}}}]
+		{ $group: {_id: "$name", total: { $sum: "$game_score"}, average: { $avg: "$game_score"}}}]
 		, function(err,gameResult) {
 	    if (err)
   	    res.send(err);

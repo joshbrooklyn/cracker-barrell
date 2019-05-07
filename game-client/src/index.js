@@ -203,7 +203,7 @@ export default class CrackerBarrell extends React.Component {
 	undoMove() {
 		let tmpHistory = this.state.history.slice(0,this.state.history.length - 1);
 		
-		if (tmpHistory.length > 0) {		
+		if (tmpHistory.length > 0 && this.state.gameOver == 0) {		
 			//console.log(this.state.history.length);
 			//console.log(tmpHistory);
 					
@@ -258,9 +258,11 @@ export default class CrackerBarrell extends React.Component {
 	saveGame(history, score){
 		axios.post('http://jhmedia:3001/game_results', {
 			name: "Trogdor",
-			game_result: score,
+			game_score: score,
 			game_history: history
-		}).catch( error => {
+		}).then( res => {
+    	console.log(res.data);
+    }).catch( error => {
     	console.log(error);
   	});	
 	}
