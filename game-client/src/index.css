@@ -14,17 +14,13 @@ code {
 }
 
 #cracker-barrell {
-	width: 800px;
-	height: 300px;
-	border: 1px solid black;
+	//border: 1px solid black;
 	margin-top: 10px;
 	margin-left: 10px;
-	background-color:#FFFCC9;
+	//background-color:#FFFCC9;
 }
 
 #game-board {
-	width:400px;
-	height:280px;
 	display:inline-block;
 	padding: 10px;
 }
@@ -37,14 +33,14 @@ code {
 	border-right-color: transparent;
 	border-top-color: transparent;
 	border-bottom-color:#f4a442;
-	border-width:0px 200px 280px 200px;	
+	border-width:0px 300px 520px 300px;	
 }
 
 .pegs {
 	top: 20px;
 	left: 20px;
 	position:absolute;
-	padding-top:27px;
+	padding-top:55px;
 	//visibility:hidden;
 	//background-color:purple;
 }
@@ -59,8 +55,8 @@ code {
 }
 
 #peg-location {
-	height:33px;
-	width:33px; 
+	height:60px;
+	width:60px; 
 	display:inline-block;
 	border: 2px solid black;
 	border-radius: 100%;
@@ -74,9 +70,9 @@ button:focus {
 
 #peg-location.empty {
 	background-color:black;
-	height:22px;
-	width:22px; 	
-	margin-top:7px;
+	height:50px;
+	width:50px; 	
+	margin-top:5px;
 }
 
 #peg-location.from-selected {
@@ -85,9 +81,9 @@ button:focus {
 
 #peg-location.to-selectable {
 	background-color:black;
-	height:22px;
-	width:22px; 	
-	margin-top:7px;
+	height:50px;
+	width:50px; 	
+	margin-top:5px;
 	//animation-name:selectable-hole;
 	animation-duration: .5s;
 	animation-delay:0s;
@@ -106,8 +102,8 @@ button:focus {
 
 #peg-location.to-selectable:hover {
 	cursor:pointer;		
-	height:33px;
-	width:33px; 	
+	height:60px;
+	width:60px; 	
 	margin-top:-1px;
 }
 

@@ -56,20 +56,23 @@ class Board extends React.Component {
     
     let rows = [];
 	  let key = 0;
+	  	  
+	 	const triangleBase = 600;
+	 	const triangleHeight = 520; 	  
+	 	const pegDiameter = 60;
 	  
 	  for (let i = 0; i <= 4; i++) {
 	  	let col = [];
-	  	let rowPadding = (400/2 - (36 * (i + 1))) + 1;
-	  	let rowWidth = 72 * (i + 1);
+	  	let rowPadding = (triangleBase/2) - (pegDiameter * (i + 1) / 2) - (pegDiameter * i / 2);
+	  	let rowWidth = pegDiameter * (i + i + 1);
 	  	let cellwidth = rowWidth / (i + 1);
+	  	let rowHeight = triangleHeight / 5 - 5;
 	  	
 	  	const rowStyles = {
 	  		marginLeft: rowPadding + 'px',
-	  		height: "53px",
+	  		height: rowHeight + 'px',
 	  		backgroundColor:"transparent",
-	  		//border: "1px solid black",
 	  		borderBottom: "none",
-	  		width: rowWidth + "px"
 	  	};
 	  	
 	  	for (let j = 0; j <= i; j++)
@@ -304,13 +307,6 @@ export default class CrackerBarrell extends React.Component {
 					selectablePegs = {selectablePegs}
 					selectableHoles = {selectableHoles}
 					onClick={(i) => this.handleClick(i, selectablePegs, selectableHoles)}
-				/>
-				<GameControls 
-					gameOver = {this.state.gameOver}
-					pegsRemaining = {this.state.pegsRemaining}
-					resetGame = {() => this.resetGame()}
-					undoMove = {() => this.undoMove()}
-					giveHint ={() => this.giveHint()}
 				/>
 			</div>
 		);
