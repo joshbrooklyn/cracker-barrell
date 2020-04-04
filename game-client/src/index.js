@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from "axios";
 import './index.css';
+//import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 function PegLocation(props){
@@ -41,6 +43,23 @@ function GameControls(props){
 				<button onClick={props.undoMove.bind(this)}>Undo Move</button>
 				<div id="game-message" className={messageClass}>{messageText}</div>			
 			</div>
+		</div>
+	)
+}
+
+function GameHistory(props){
+	//console.log(props.oldGames);
+	let games = [];
+	
+	if (props.oldGames){
+		games = props.oldGames.map((game, idx) => {
+			return <div key={idx}>{game.name}, {game.created_date}, {game.game_score}</div>
+		})
+	}
+	
+	return (
+		<div id="game-history">
+			{ games }
 		</div>
 	)
 }
@@ -236,6 +255,26 @@ export default class CrackerBarrell extends React.Component {
 		}		
 	} 
 	
+	saveGame(history, score){
+		axios.post('http://jhmedia:3001/game_results', {
+			name: "Trogdor",
+			game_score: score,
+			game_history: history
+		}).then( res => {
+    	console.log(res.data);
+    }).catch( error => {
+    	console.log(error);
+  	});	
+	}
+	
+	componentDidMount() {
+		axios.get('http://jhmedia:3001/game_results')
+			.then(res => {
+				const oldGames = res.data;
+				this.setState({oldGames: oldGames});
+			})
+	}
+	
 	render() {
 		const history = this.state.history;
 		const current = history[history.length - 1];
@@ -274,6 +313,8 @@ export default class CrackerBarrell extends React.Component {
 		    	if (pegsRemaining === 3)
 		    		score = 1;	    			    	
 	    	
+	    		this.saveGame(history, score);
+	    		
 	    		this.setState({
 		    			gameOver:1,
 		    			pegsRemaining: pegsRemaining,
@@ -311,6 +352,9 @@ export default class CrackerBarrell extends React.Component {
 					resetGame = {() => this.resetGame()}
 					undoMove = {() => this.undoMove()}
 					giveHint ={() => this.giveHint()}
+				/>
+				<GameHistory
+				  oldGames = {this.state.oldGames}
 				/>
 			</div>
 		);
