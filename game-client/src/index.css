@@ -13,16 +13,9 @@ code {
     monospace;
 }
 
-#cracker-barrell {
-	//border: 1px solid black;
-	margin-top: 10px;
-	margin-left: 10px;
-	//background-color:#FFFCC9;
-}
-
 #game-board {
 	display:inline-block;
-	padding: 10px;
+	position:relative;
 }
 
 .triangle {
@@ -37,10 +30,10 @@ code {
 }
 
 .pegs {
-	top: 20px;
-	left: 20px;
+	top: 50px;
+	left: 0px;
 	position:absolute;
-	padding-top:55px;
+	//padding-top:55px;
 	//visibility:hidden;
 	//background-color:purple;
 }
