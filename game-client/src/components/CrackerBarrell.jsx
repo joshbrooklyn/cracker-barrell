@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import GameBoard from './GameBoard';
+import MenuBar from './MenuBar';
+import { Grid } from 'semantic-ui-react';
+import { Container } from 'semantic-ui-react';
 
 export default class CrackerBarrell extends React.Component {
 	constructor(props) {
@@ -172,15 +175,21 @@ export default class CrackerBarrell extends React.Component {
 	  }
 		
 		return (
-			
-				<GameBoard 
-					pegLocations = {pegLocations}
-					selectedPeg = {this.state.selectedPeg}
-					selectablePegs = {selectablePegs}
-					selectableHoles = {selectableHoles}
-					onClick={(i) => this.handleClick(i, selectablePegs, selectableHoles)}
-				/>
-
+				<Grid>
+					<Grid.Row>
+						<MenuBar/>
+					</Grid.Row>
+					<Grid.Row>
+						<Container centered>	
+							<GameBoard 
+								pegLocations = {pegLocations}
+								selectedPeg = {this.state.selectedPeg}
+								selectablePegs = {selectablePegs}
+								selectableHoles = {selectableHoles}
+								onClick={(i) => this.handleClick(i, selectablePegs, selectableHoles)}/>
+						</Container>								
+					</Grid.Row>
+				</Grid>
 		);
 	}
 }
