@@ -177,10 +177,13 @@ export default class CrackerBarrell extends React.Component {
 		return (
 				<Grid>
 					<Grid.Row>
-						<MenuBar/>
+						<MenuBar 
+							resetGameHandler = {this.resetGame.bind(this)}
+							undoMoveHandler = {this.undoMove.bind(this)}
+						/>
 					</Grid.Row>
 					<Grid.Row>
-						<Container centered>	
+						<Container>	
 							<GameBoard 
 								pegLocations = {pegLocations}
 								selectedPeg = {this.state.selectedPeg}
