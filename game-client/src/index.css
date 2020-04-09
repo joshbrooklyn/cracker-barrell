@@ -1,20 +1,5 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
 
 #game-board {
-	display:inline-block;
 	position:relative;
 }
 
@@ -25,44 +10,27 @@ code {
 	border-left-color: transparent;
 	border-right-color: transparent;
 	border-top-color: transparent;
-	border-bottom-color:#f4a442;
+	border-bottom-color:#d08c49;
 	border-width:0px 300px 520px 300px;	
 }
 
 .pegs {
 	top: 50px;
-	left: 0px;
 	position:absolute;
-	//padding-top:55px;
-	//visibility:hidden;
-	//background-color:purple;
 }
 
-
-#game-message-old {
-	position:absolute;
-  height: 100px;
-  top: 10px;
-  left: 50%;
-  border:1px black solid;
-}
 
 #peg-location {
 	height:60px;
 	width:60px; 
-	display:inline-block;
-	border: 2px solid black;
 	border-radius: 100%;
-	background-color: #b00000;
-	//visibility:hidden;
-}
-
-button:focus {
+	background-color: #880000;
 	outline:none;
 }
 
 #peg-location.empty {
 	background-color:black;
+	border: 2px solid black;
 	height:50px;
 	width:50px; 	
 	margin-top:5px;
@@ -70,6 +38,7 @@ button:focus {
 
 #peg-location.from-selected {
 	background-color:#ff0000;
+	outline:none;
 }
 
 #peg-location.to-selectable {
@@ -77,19 +46,11 @@ button:focus {
 	height:50px;
 	width:50px; 	
 	margin-top:5px;
-	//animation-name:selectable-hole;
-	animation-duration: .5s;
-	animation-delay:0s;
-	animation-iteration-count:infinite;
-}
-
-@keyframes selectable-hole {
-  from {background-color: black;}
-  to {background-color: #FFFCC9;}	
+	border: 2px solid black;
 }
 
 #peg-location.from-selectable:hover {
-	background-color:#df0000;
+	background-color:#bb0000;
   cursor:pointer;		
 }
 
@@ -99,71 +60,3 @@ button:focus {
 	width:60px; 	
 	margin-top:-1px;
 }
-
-#game-history {
-	vertical-align:top;
-	width:799px;
-	border-left: 1px solid black;
-	border-right: 1px solid black;
-	border-bottom: 1px solid black;
-	font-family:"Times New Roman";
-}
-
-#game-controls {
-	display:inline-block;
-	vertical-align:top;
-	width:379px;
-	height:100%;
-	border-left: 1px solid black;
-	font-family:"Times New Roman";
-}
-
-#game-control-header {
-	font-size:40px;
-	width:100%;
-	font-weight:bold;
-	text-align:center;
-	//text-decoration:underline;
-	background-color:#d3ed9e;
-	color:#5e6309;
-}
-
-#game-control-main {
-	font-size:40px;
-	font-weight:bold;
-	padding-left: 5px;
-	padding-right: 5px;
-	padding-top:5px
-}
-
-#game-message {
-	text-decoration:none;
-	font-size:18px;
-	visibility:hidden;	
-	padding-top: 12px;
-	padding-left:5px;
-}
-
-#game-message.won {
-	color:green;
-	visibility:visible;
-}
-
-#game-message.lost {
-	color:orange;
-	visibility:visible;
-}
-
-#game-controls button {
-	border-radius: 20px;
-	display:block;
-	margin-top:10px;
-	text-decoration:none;
-}
-
-#game-controls button:hover {
-	cursor: pointer;
-}
-
-
-
