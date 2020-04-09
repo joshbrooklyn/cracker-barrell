@@ -22,7 +22,6 @@ export default class CrackerBarrell extends React.Component {
 				pegLocations: pegLocations,
 				selectablePegs: selectablePegs, 
 				selectableHoles: null,
-				lastMove: null,
 			}],			
 			
 			gameOver:0,
@@ -98,7 +97,6 @@ export default class CrackerBarrell extends React.Component {
 			pegLocations: pegLocations,
 			selectablePegs: selectablePegs, 
 			selectableHoles: null,
-			lastMove: null,
 		}];
 		
 		this.setState ({
@@ -162,7 +160,6 @@ export default class CrackerBarrell extends React.Component {
 					pegLocations: pegLocations,
 					selectablePegs: selectablePegs, 
 					selectableHoles: selectableHoles,
-					lastMove: null,
 			  	});
 				}
 			} else { // user selected a hole
@@ -184,7 +181,6 @@ export default class CrackerBarrell extends React.Component {
 			  	  pegLocations: pegLocations,
 			  	  selectablePegs: selectablePegs,
 			  	  selectableHoles:null,
-			  	  lastMove: null   
 			  	});
 					
 					document.removeEventListener('click', this.unselectPeg, false);
