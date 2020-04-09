@@ -85,6 +85,7 @@ class GameBoard extends React.Component {
 		return (
 		  <div id="game-board">
 		  	<div className="triangle"/>
+		  	<div className="triangle2"/>
 		  	<div className="pegs">
 		  	{rows}
 		  	</div>

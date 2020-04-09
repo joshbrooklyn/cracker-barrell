@@ -14,6 +14,21 @@
 	border-width:0px 300px 520px 300px;	
 }
 
+.triangle2 {
+	height:0;
+	width:0;
+	border-style: solid;
+	border-left-color: transparent;
+	border-right-color: transparent;
+	border-top-color: transparent;
+	border-bottom-color:#b06c29;
+	border-width:0px 315px 546px 315px;
+	position:absolute;
+	z-index:-1;
+	top:-17px;
+	left:-15px;	
+}
+
 .pegs {
 	top: 50px;
 	position:absolute;
@@ -24,8 +39,10 @@
 	height:60px;
 	width:60px; 
 	border-radius: 100%;
-	background-color: #880000;
+	background-color: #c62d1f;
 	outline:none;
+	border:1px solid #d02718;
+	box-shadow: 6px 6px 0px 0px #8a2a21;
 }
 
 #peg-location.empty {
@@ -34,11 +51,13 @@
 	height:50px;
 	width:50px; 	
 	margin-top:5px;
+	box-shadow: none;
 }
 
 #peg-location.from-selected {
-	background-color:#ff0000;
-	outline:none;
+  box-shadow: 12px 12px 0px 0px #8a2a21;
+  margin-top:-6px;
+  margin-left:-6px;
 }
 
 #peg-location.to-selectable {
@@ -47,16 +66,17 @@
 	width:50px; 	
 	margin-top:5px;
 	border: 2px solid black;
+	box-shadow: none;
 }
 
 #peg-location.from-selectable:hover {
-	background-color:#bb0000;
-  cursor:pointer;		
+	cursor:pointer;		
+  box-shadow: 9px 9px 0px 0px #8a2a21;
+  margin-top:-3px;
+  margin-left:-3px;
 }
 
 #peg-location.to-selectable:hover {
-	cursor:pointer;		
-	height:60px;
-	width:60px; 	
-	margin-top:-1px;
+	cursor:pointer;	
+	background-color:#292929;
 }
