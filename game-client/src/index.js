@@ -6,6 +6,8 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import CrackerBarrell from './components/CrackerBarrell';
 
+document.title = "Cracker Barrell Peg Game";
+
 ReactDOM.render(
   <React.StrictMode>
 		<CrackerBarrell 
