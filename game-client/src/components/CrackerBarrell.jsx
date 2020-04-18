@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 
 import GameBoard from './GameBoard';
 import MenuBar from './MenuBar';
-import { Container } from 'semantic-ui-react';
+import GameOverPanel from './GameOverPanel';
+import { Container, Dimmer, Header } from 'semantic-ui-react';
 
 export default class CrackerBarrell extends React.Component {
 	constructor(props) {
@@ -23,7 +24,7 @@ export default class CrackerBarrell extends React.Component {
 				selectableHoles: null,
 			}],			
 			
-			gameOver:0,
+			gameOver:false,
 			pegsRemaining:null,
 			oldGames:null,
 		};
@@ -100,7 +101,7 @@ export default class CrackerBarrell extends React.Component {
 		
 		this.setState ({
 			history: history,						
-			gameOver:0,
+			gameOver:false,
 			pegsRemaining:null
 		});
 	}
@@ -110,7 +111,7 @@ export default class CrackerBarrell extends React.Component {
 		const selectedPeg = this.state.history[this.state.history.length - 1].selectedPeg;
 		//console.log(selectedPeg);
 		
-		if (this.state.gameOver === 0 ) {
+		if (this.state.gameOver === false ) {
 			if (selectedPeg == null && this.state.history.length > 2) {
 				let tmpHistory = this.state.history.slice(0,this.state.history.length - 2);
 				
@@ -129,6 +130,12 @@ export default class CrackerBarrell extends React.Component {
 		}
 	}
 	
+	testDim() {
+		this.setState({
+			gameOver:true,
+		})
+	}
+	
 	handleClick(i) {
 		let  history = this.state.history.slice(0);
 		const current = history[history.length - 1];
@@ -141,7 +148,7 @@ export default class CrackerBarrell extends React.Component {
 		
 		//console.log("Game Over: " + gameOver);
 		
-		if (gameOver !== 1) {
+		if (gameOver !== true) {
 		
 			const selectedPeg = current.selectedPeg;
 			const pegLocations = current.pegLocations.slice(0);
@@ -198,7 +205,7 @@ export default class CrackerBarrell extends React.Component {
 			    	if (pegsRemaining === 3)
 			    		score = 1;	    			    	
 		    	
-		    		gameOver = 1;
+		    		gameOver = true;
 			    }				
 				}			
 			}
@@ -215,6 +222,7 @@ export default class CrackerBarrell extends React.Component {
 	
 	render() {
 		const gameOver = this.state.gameOver;
+		const pegsRemaining = this.state.pegsRemaining;
 		const history = this.state.history;
 		const current = history[history.length - 1];
 		const selectedPeg = current.selectedPeg;
@@ -227,16 +235,28 @@ export default class CrackerBarrell extends React.Component {
 		
 		return (
 			<Container>
-				<MenuBar 
-					resetGameHandler = {this.resetGame.bind(this)}
-					undoMoveHandler = {this.undoMove.bind(this)}
-							/>
-				<GameBoard 
-					pegLocations = {pegLocations}
-					selectedPeg = {selectedPeg}
-					selectablePegs = {selectablePegs}
-					selectableHoles = {selectableHoles}
-					onClick={(i) => this.handleClick(i)}/>
+				<Header as='h1'>* Cracker Barrell Peg Game * </Header>
+				<Container className="game-container">
+					<MenuBar 
+						resetGameHandler = {this.resetGame.bind(this)}
+						undoMoveHandler = {this.undoMove.bind(this)}
+						testDimHandler = {this.testDim.bind(this)}
+					/>
+					
+					<Dimmer.Dimmable dimmed={gameOver}>			
+						<GameBoard 
+							pegLocations = {pegLocations}
+							selectedPeg = {selectedPeg}
+							selectablePegs = {selectablePegs}
+							selectableHoles = {selectableHoles}
+							onClick={(i) => this.handleClick(i)}/>
+							
+						<GameOverPanel
+							gameOver = {gameOver}
+							pegsRemaining = {pegsRemaining} 
+						/>
+					</Dimmer.Dimmable>
+				</Container>
 			</Container>
 		);
 	}
