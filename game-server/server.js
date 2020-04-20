@@ -4,10 +4,31 @@ var express = require('express'),
   mongoose = require('mongoose'),
   GameResult = require('./api/models'), //created model loading here
   bodyParser = require('body-parser');
+
+//MONGO CONFIG
+const {
+  MONGO_USERNAME,
+  MONGO_PASSWORD,
+  MONGO_HOSTNAME,
+  MONGO_PORT,
+  MONGO_DB
+} = process.env;
   
 // mongoose instance connection url connection
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://josh:blanc0$@localhost/CrackerBarrelGameHistory?authSource=admin', {useNewUrlParser: true}); 
+//mongoose.Promise = global.Promise;
+const url = 'mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}?authSource=admin';
+const options = {
+  useNewUrlParser: true,
+  reconnectTries: Number.MAX_VALUE,
+  reconnectInterval: 500, 
+  connectTimeoutMS: 10000,
+};
+
+mongoose.connect(url, options).then( function() {
+	console.log('MongoDB is connected');
+}).catch( function(err) {
+	console.log(err);
+});
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
