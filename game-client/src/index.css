@@ -91,9 +91,9 @@ h1.ui.header {
 }
 
 #peg-location.from-selected {
-  box-shadow: 12px 12px 0px 0px #8a2a21;
-  margin-top:-6px;
-  margin-left:-6px;
+  box-shadow: 16px 19px 0px -1px #8a2a21;
+  margin-top:-14px;
+  margin-left:-14px;
 }
 
 #peg-location.to-selectable {
